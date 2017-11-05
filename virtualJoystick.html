@@ -1,0 +1,115 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            overflow	: hidden;
+            padding		: 0;
+            margin		: 0;
+            background-color: #BBB;
+        }
+        #info {
+            position	: absolute;
+            top		: 0;
+            width		: 100%;
+            padding		: 5px;
+            text-align	: center;
+        }
+        #info a {
+            color		: #66F;
+            text-decoration	: none;
+        }
+        #info a:hover {
+            text-decoration	: underline;
+        }
+        #container {
+            width		: 100%;
+            height		: 100%;
+            overflow	: hidden;
+            padding		: 0;
+            margin		: 0;
+            -webkit-user-select	: none;
+            -moz-user-select	: none;
+        }
+    </style>
+</head>
+<body onload="init()">
+<div id="container"></div>
+<div id="info">
+    <span id="result"></span>
+</div>
+<script src="../SocketServer/WebSocketJoystick.js"></script>
+<script src="virtualjoystick.js"></script>
+<script>
+    console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
+
+    var joystick	= new VirtualJoystick({
+        container	: document.getElementById('container'),
+        mouseSupport	: true
+    });
+    joystick.addEventListener('touchStart', function(){
+        console.log('down');
+    });
+    joystick.addEventListener('touchEnd', function(){
+        console.log('up')
+    });
+
+    var x = 0;
+    var y = 0;
+
+    setInterval(function(){
+
+        if ( joystick.deltaX() )
+        {
+            if ( joystick.deltaX() !== x )
+            {
+                if ( Math.abs(x - joystick.deltaX()) >= 10 )
+                {
+                    x = (Math.ceil(joystick.deltaX() / 10) - 1) * 10;
+                    socket.send(' x=' + x);
+                }
+            }
+        }
+        else
+        {
+            if ( x !== 0 )
+            {
+                x = 0;
+                socket.send(' x=0');
+            }
+        }
+
+        if ( joystick.deltaY() )
+        {
+            if ( joystick.deltaY() !== y )
+            {
+                if ( Math.abs(y - joystick.deltaY()) >= 10 )
+                {
+                    y = (Math.ceil(joystick.deltaY() / 10) - 1) * 10;
+                    socket.send(' y=' + y);
+                }
+            }
+        }
+        else
+        {
+            if ( y !== 0 )
+            {
+                y = 0;
+                socket.send(' y=0');
+            }
+        }
+
+        var outputEl	= document.getElementById('result');
+        outputEl.innerHTML	= '<b>Result:</b> '
+            + ' dx:'+joystick.deltaX()
+            + ' dy:'+joystick.deltaY()
+            + (joystick.right()	? ' right'	: '')
+            + (joystick.up()	? ' up'		: '')
+            + (joystick.left()	? ' left'	: '')
+            + (joystick.down()	? ' down' 	: '')
+    }, 1/30 * 1000);
+</script>
+
+</body>
+</html>
