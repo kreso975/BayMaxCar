@@ -18,7 +18,7 @@ PIDFILE="/var/run/${NAME}.pid"
 LOGFILE="/var/log/${NAME}.log"
 
 DAEMON="/usr/bin/php-cli"
-DAEMON_OPTS="/www/BaymaxCar/SocketServer/SocketServer.php"
+DAEMON_OPTS="/www/BayMaxCar/SocketServer/SocketServer.php"
 
 START_OPTS="-S -b -m -p ${PIDFILE} -x ${DAEMON} ${DAEMON_OPTS}"
 STOP_OPTS="-K -p ${PIDFILE}"
