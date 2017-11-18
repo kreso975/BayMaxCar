@@ -27,7 +27,7 @@ $BayMax = new omegaPWM( FALSE ); //FALSE is no logging
 
 $availableServos = Array ( 1 => "SG90", 2 => "S3003" );
 $BayMax->pwmInit();
-$BayMax->pwmSetOnDelay( 13, 100, 0); //this should give full throttle
+$BayMax->pwmSetOnDelay( $throttle, 100, 0); //this should give full throttle
 
 
 class echoServer extends WebSocketServer {
@@ -38,7 +38,7 @@ class echoServer extends WebSocketServer {
 
     protected function process ($user, $message)
     {
-        global $BayMax,$availableServos,$y,$x;
+        global $BayMax,$availableServos,$y,$x, $throttle, $turnForward, $turnBack;
         $response = 0;
 
 
@@ -114,7 +114,7 @@ class echoServer extends WebSocketServer {
                     if ($instruction[1] == 0)
                     {
                         $BayMax->pwmInit();
-                        $BayMax->pwmSetOnDelay( 13, 100, 0);
+                        $BayMax->pwmSetOnDelay( $throttle, 100, 0);
 
                         //$BayMax->pwmSetOnDelay(0, 0, 0);
                         //$BayMax->pwmSetOnDelay(1, 0, 0);
@@ -130,13 +130,13 @@ class echoServer extends WebSocketServer {
                         if ($string > 0 && $string < 100)
                         {
                             $BayMax->pwmInit();
-                            $BayMax->pwmSetOnDelay( 13, 100, 0);
-                            $BayMax->pwmSetOnDelay(14, $string, 0);
+                            $BayMax->pwmSetOnDelay( $throttle, 100, 0);
+                            $BayMax->pwmSetOnDelay( $turnBack, $string, 0);
                         }
                         else
                         {
                             $string = 100;
-                            $BayMax->pwmSetOnDelay(14, $string, 0);
+                            $BayMax->pwmSetOnDelay($turnBack, $string, 0);
                         }
 
                     }
@@ -149,14 +149,14 @@ class echoServer extends WebSocketServer {
                         if ($string < 100)
                         {
                             $BayMax->pwmInit();
-                            $BayMax->pwmSetOnDelay( 13, 100, 0);
+                            $BayMax->pwmSetOnDelay( $throttle, 100, 0 );
                             // $string = 9 - $string;
-                            $BayMax->pwmSetOnDelay(15, $string, 0);
+                            $BayMax->pwmSetOnDelay( $turnForward, $string, 0 );
                         }
                         else
                         {
-                            $string = 100;
-                            $BayMax->pwmSetOnDelay(15, $string, 0);
+                            $string = 100; // This is a full throttle
+                            $BayMax->pwmSetOnDelay( $turnForward, $string, 0 );
                         }
 
                     }
