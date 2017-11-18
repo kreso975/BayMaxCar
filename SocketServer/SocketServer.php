@@ -9,6 +9,17 @@ require_once '../../Klib/omegaPwm.php';
 $host = "192.168.1.51";    // BayMax Car
 $port = 9000;
 
+//
+// Pins for Motor should be setup here
+//
+
+// Throttle
+$throttle = 13;
+// Rear motor
+$turnForward = 15;
+$turnBack = 14;
+
+
 const SHOW_ON_LCD = "omegaLCD -w %s %s";
 
 $BayMax = new Omega2( FALSE ); //FALSE is no logging
@@ -16,7 +27,7 @@ $BayMax = new omegaPWM( FALSE ); //FALSE is no logging
 
 $availableServos = Array ( 1 => "SG90", 2 => "S3003" );
 $BayMax->pwmInit();
-$BayMax->pwmSetOnDelay( 2, 100, 0);
+$BayMax->pwmSetOnDelay( 13, 100, 0); //this should give full throttle
 
 
 class echoServer extends WebSocketServer {
@@ -103,7 +114,7 @@ class echoServer extends WebSocketServer {
                     if ($instruction[1] == 0)
                     {
                         $BayMax->pwmInit();
-                        $BayMax->pwmSetOnDelay( 2, 100, 0);
+                        $BayMax->pwmSetOnDelay( 13, 100, 0);
 
                         //$BayMax->pwmSetOnDelay(0, 0, 0);
                         //$BayMax->pwmSetOnDelay(1, 0, 0);
@@ -119,13 +130,13 @@ class echoServer extends WebSocketServer {
                         if ($string > 0 && $string < 100)
                         {
                             $BayMax->pwmInit();
-                            $BayMax->pwmSetOnDelay( 2, 100, 0);
-                            $BayMax->pwmSetOnDelay(1, $string, 0);
+                            $BayMax->pwmSetOnDelay( 13, 100, 0);
+                            $BayMax->pwmSetOnDelay(14, $string, 0);
                         }
                         else
                         {
                             $string = 100;
-                            $BayMax->pwmSetOnDelay(1, $string, 0);
+                            $BayMax->pwmSetOnDelay(14, $string, 0);
                         }
 
                     }
@@ -138,14 +149,14 @@ class echoServer extends WebSocketServer {
                         if ($string < 100)
                         {
                             $BayMax->pwmInit();
-                            $BayMax->pwmSetOnDelay( 2, 100, 0);
+                            $BayMax->pwmSetOnDelay( 13, 100, 0);
                             // $string = 9 - $string;
-                            $BayMax->pwmSetOnDelay(0, $string, 0);
+                            $BayMax->pwmSetOnDelay(15, $string, 0);
                         }
                         else
                         {
                             $string = 100;
-                            $BayMax->pwmSetOnDelay(0, $string, 0);
+                            $BayMax->pwmSetOnDelay(15, $string, 0);
                         }
 
                     }
