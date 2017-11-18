@@ -36,6 +36,15 @@ class echoServer extends WebSocketServer {
 
         switch (trim($instruction[0]))
         {
+            case "lights":
+            {
+                if ($instruction[1] == 1)
+                    echo "Turn lights ON";
+                else if ($instruction[1] == 0)
+                    echo "Turn Lights OFF";
+
+                break;
+            }
             case "x":
             {
                 //$BayMax->pwmInit();
