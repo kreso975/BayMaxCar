@@ -4,7 +4,7 @@
 var socket;
 
 function init() {
-    var host = "ws://192.168.1.98:9000/deamon.php"; // SET THIS TO YOUR SERVER
+    var host = "ws://192.168.1.51:9000/deamon.php"; // SET THIS TO YOUR SERVER
 
     try
     {
