@@ -39,9 +39,16 @@ class echoServer extends WebSocketServer {
             case "lights":
             {
                 if ($instruction[1] == 1)
-                    echo "Turn lights ON";
+                {
+                    echo "Turn lights ON\n";
+                    $response = "Turn lights ON";
+                }
                 else if ($instruction[1] == 0)
-                    echo "Turn Lights OFF";
+                {
+                    echo "Turn Lights OFF\n";
+                    $response = "Turn lights OFF";
+                }
+
 
                 break;
             }
