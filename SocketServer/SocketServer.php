@@ -21,8 +21,8 @@ $turnBack = 14;
 $turnForward = 15;
 
 // Steering Motor
-$turnLeft = 12;
-$turnRight = 11;
+$turnLeft = 11;
+$turnRight = 12;
 
 
 
