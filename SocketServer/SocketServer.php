@@ -16,8 +16,9 @@ $port = 9000;
 // Throttle
 $throttle = 13;
 // Rear motor
-$turnForward = 15;
 $turnBack = 14;
+$turnForward = 15;
+
 
 
 const SHOW_ON_LCD = "omegaLCD -w %s %s";
