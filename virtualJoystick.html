@@ -35,7 +35,10 @@
     </style>
 </head>
 <body onload="init()">
-<div id="container"></div>
+
+<div id="container">
+    <img id="stream" src="http://192.168.1.51:8080/?action=stream" onerror="this.src='./apps/onion-webcam/not_available.jpg'" class="style-scope onion-webcam">
+</div>
 <div id="info">
     <span id="result"></span>
 </div>
