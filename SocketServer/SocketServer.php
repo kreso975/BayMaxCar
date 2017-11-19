@@ -15,9 +15,14 @@ $port = 9000;
 
 // Throttle
 $throttle = 13;
+
 // Rear motor
 $turnBack = 14;
 $turnForward = 15;
+
+// Steering Motor
+$turnLeft = 12;
+$turnRight = 11;
 
 
 
@@ -39,7 +44,7 @@ class echoServer extends WebSocketServer {
 
     protected function process ($user, $message)
     {
-        global $BayMax,$availableServos,$y,$x, $throttle, $turnForward, $turnBack;
+        global $BayMax,$availableServos,$y,$x, $throttle, $turnForward, $turnBack, $turnLeft, $turnRight;
         $response = 0;
 
 
@@ -67,40 +72,62 @@ class echoServer extends WebSocketServer {
             case "x":
             {
                 //$BayMax->pwmInit();
-                if ( $x !== $instruction[1] )
+                //$BayMax->pwmSetOnDelay( 2, 100, 0);
+
+                if ( $y !== $instruction[1] )
                 {
                     if ($instruction[1] == 0)
                     {
-                        $BayMax->pwmSetOnDelay(3, 9, 0);
-                        $x = $instruction[1];
+                        $BayMax->pwmInit();
+                        $BayMax->pwmSetOnDelay( $throttle, 100, 0);
+
+                        //$BayMax->pwmSetOnDelay(0, 0, 0);
+                        //$BayMax->pwmSetOnDelay(1, 0, 0);
                         echo $instruction[1] . "x ";
+                        $y = $instruction[1];
                     }
                     else if ($instruction[1] < 0)
                     {
                         $string = str_replace('-', '', $instruction[1]);
-                        $string = $string / 10;
-                        $x = $instruction[1];
+                        $y = $instruction[1];
                         echo $string . "x ";
 
-                        if ($string > 9)
+                        if ($string > 0 && $string < 100)
                         {
-                            $BayMax->pwmSetOnDelay(3, $string, 0);
+                            $BayMax->pwmInit();
+                            $BayMax->pwmSetOnDelay( $throttle, 100, 0);
+                            $BayMax->pwmSetOnDelay( $turnRight, $string, 0);
+                        }
+                        else
+                        {
+                            $string = 100;
+                            $BayMax->pwmSetOnDelay( $turnRight, $string, 0);
                         }
 
                     }
                     else if ($instruction[1] > 0)
                     {
-                        $string = $instruction[1] / 10;
-                        $x = $instruction[1];
-                        echo $string . "x ";
+                        $string = $instruction[1];
+                        echo $string."x ";
+                        $y = $instruction[1];
 
-                        if ($string < 9)
+                        if ($string < 100)
                         {
-                            $string = 9 - $string;
-                            $BayMax->pwmSetOnDelay(3, $string, 0);
+                            $BayMax->pwmInit();
+                            $BayMax->pwmSetOnDelay( $throttle, 100, 0 );
+                            // $string = 9 - $string;
+                            $BayMax->pwmSetOnDelay( $turnLeft, $string, 0 );
                         }
+                        else
+                        {
+                            $string = 100; // This is a full throttle
+                            $BayMax->pwmSetOnDelay( $turnLeft, $string, 0 );
+                        }
+
                     }
+
                 }
+
                 //$BayMax->pwmSleep();
                 break;
             }
