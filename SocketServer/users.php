@@ -23,7 +23,8 @@
  */
 
 
-class WebSocketUser {
+class WebSocketUser
+{
 
   public $socket;
   public $id;
