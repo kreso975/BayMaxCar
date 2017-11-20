@@ -93,8 +93,8 @@ class echoServer extends WebSocketServer {
                 {
                     if ($instruction[1] == 0)
                     {
-                        $BayMax->pwmInit();
-                        $BayMax->pwmSetOnDelay( $throttle, 100, 0);
+                        //$BayMax->pwmInit();
+                        //$BayMax->pwmSetOnDelay( $throttle, 100, 0);
 
                         echo $instruction[1] . "x ";
                         $x = $instruction[1];
@@ -107,8 +107,8 @@ class echoServer extends WebSocketServer {
 
                         if ($string > 0 && $string < 100)
                         {
-                            $BayMax->pwmInit();
-                            $BayMax->pwmSetOnDelay( $throttle, 100, 0);
+                            //$BayMax->pwmInit();
+                            //$BayMax->pwmSetOnDelay( $throttle, 100, 0);
                             $BayMax->pwmSetOnDelay( $turnRight, $string, 0);
                         }
                         else
@@ -125,8 +125,8 @@ class echoServer extends WebSocketServer {
 
                         if ($string < 100)
                         {
-                            $BayMax->pwmInit();
-                            $BayMax->pwmSetOnDelay( $throttle, 100, 0 );
+                            //$BayMax->pwmInit();
+                            //$BayMax->pwmSetOnDelay( $throttle, 100, 0 );
                             // $string = 9 - $string;
                             $BayMax->pwmSetOnDelay( $turnLeft, $string, 0 );
                         }
@@ -148,8 +148,8 @@ class echoServer extends WebSocketServer {
                 {
                     if ($instruction[1] == 0)
                     {
-                        $BayMax->pwmInit();
-                        $BayMax->pwmSetOnDelay( $throttle, 100, 0);
+                        //$BayMax->pwmInit();
+                        //$BayMax->pwmSetOnDelay( $throttle, 100, 0);
 
                         echo $instruction[1] . "y ";
                         $y = $instruction[1];
@@ -160,10 +160,10 @@ class echoServer extends WebSocketServer {
                         $y = $instruction[1];
                         echo $string . "y ";
 
-                        if ($string > 0 && $string < 100)
+                        if ( $string > 0 && $string < 100 )
                         {
-                            $BayMax->pwmInit();
-                            $BayMax->pwmSetOnDelay( $throttle, 100, 0);
+                            //$BayMax->pwmInit();
+                            //$BayMax->pwmSetOnDelay( $throttle, 100, 0);
                             $BayMax->pwmSetOnDelay( $turnBack, $string, 0);
                         }
                         else
@@ -172,16 +172,16 @@ class echoServer extends WebSocketServer {
                             $BayMax->pwmSetOnDelay($turnBack, $string, 0);
                         }
                     }
-                    else if ($instruction[1] > 0)
+                    else if ( $instruction[1] > 0 )
                     {
                         $string = $instruction[1];
                         echo $string."y ";
                         $y = $instruction[1];
 
-                        if ($string < 100)
+                        if ( $string < 100 )
                         {
-                            $BayMax->pwmInit();
-                            $BayMax->pwmSetOnDelay( $throttle, 100, 0 );
+                            //$BayMax->pwmInit();
+                            //$BayMax->pwmSetOnDelay( $throttle, 100, 0 );
                             // $string = 9 - $string;
                             $BayMax->pwmSetOnDelay( $turnForward, $string, 0 );
                         }
