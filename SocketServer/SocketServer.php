@@ -94,7 +94,9 @@ class echoServer extends WebSocketServer {
                     if ($instruction[1] == 0)
                     {
                         //$BayMax->pwmInit();
-                        //$BayMax->pwmSetOnDelay( $throttle, 100, 0);
+                        $BayMax->pwmSetOnDelay( $throttle, 100, 0);
+                        $BayMax->pwmSetOnDelay( $turnRight, $string, 0);
+                        $BayMax->pwmSetOnDelay( $turnLeft, $string, 0);
 
                         echo $instruction[1] . "x ";
                         $x = $instruction[1];
@@ -108,13 +110,15 @@ class echoServer extends WebSocketServer {
                         if ($string > 0 && $string < 100)
                         {
                             //$BayMax->pwmInit();
-                            //$BayMax->pwmSetOnDelay( $throttle, 100, 0);
+                            $BayMax->pwmSetOnDelay( $throttle, 100, 0);
                             $BayMax->pwmSetOnDelay( $turnRight, $string, 0);
+                            $BayMax->pwmSetOnDelay( $turnLeft, 0, 0);
                         }
                         else
                         {
                             $string = 100;
                             $BayMax->pwmSetOnDelay( $turnRight, $string, 0);
+                            $BayMax->pwmSetOnDelay( $turnLeft, 0, 0);
                         }
                     }
                     else if ($instruction[1] > 0)
@@ -129,11 +133,13 @@ class echoServer extends WebSocketServer {
                             //$BayMax->pwmSetOnDelay( $throttle, 100, 0 );
                             // $string = 9 - $string;
                             $BayMax->pwmSetOnDelay( $turnLeft, $string, 0 );
+                            $BayMax->pwmSetOnDelay( $turnRight, 0, 0 );
                         }
                         else
                         {
                             $string = 100; // This is a full throttle
                             $BayMax->pwmSetOnDelay( $turnLeft, $string, 0 );
+                            $BayMax->pwmSetOnDelay( $turnRight, 0, 0 );
                         }
                     }
                 }
