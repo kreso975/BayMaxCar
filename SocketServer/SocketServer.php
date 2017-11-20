@@ -5,28 +5,24 @@ require_once('websockets.php');
 require_once '../../Klib/Omega2lib.php';
 require_once '../../Klib/omegaPwm.php';
 
-// $host = "192.168.1.50"; // BayMax
 $host = "192.168.1.51";    // BayMax Car
 $port = 9000;
 
-//
+//*************************************
 // Pins for Motor should be setup here
 //
 
 // Throttle
-$throttle = 13;
+$throttle       = 13;
 
 // Rear motor
-$turnBack = 14;
-$turnForward = 15;
+$turnBack       = 14;
+$turnForward    = 15;
 
 // Steering Motor
-$turnLeft = 11;
-$turnRight = 12;
-
-
-
-const SHOW_ON_LCD = "omegaLCD -w %s %s";
+$turnLeft       = 11;
+$turnRight      = 12;
+//*************************************
 
 $BayMax = new Omega2( FALSE ); //FALSE is no logging
 $BayMax = new omegaPWM(); //FALSE is no logging
@@ -66,12 +62,12 @@ class echoServer extends WebSocketServer {
                     $response = "Turn lights OFF";
                 }
 
-
                 break;
             }
+
+            // Steering detection
             case "x":
             {
-
                 if ( $x !== $instruction[1] )
                 {
                     if ($instruction[1] == 0)
@@ -99,7 +95,6 @@ class echoServer extends WebSocketServer {
                             $string = 100;
                             $BayMax->pwmSetOnDelay( $turnRight, $string, 0);
                         }
-
                     }
                     else if ($instruction[1] > 0)
                     {
@@ -119,14 +114,13 @@ class echoServer extends WebSocketServer {
                             $string = 100; // This is a full throttle
                             $BayMax->pwmSetOnDelay( $turnLeft, $string, 0 );
                         }
-
                     }
-
                 }
 
                 break;
             }
 
+            // Moving detection
             case "y":
             {
                 if ( $y !== $instruction[1] )
@@ -156,7 +150,6 @@ class echoServer extends WebSocketServer {
                             $string = 100;
                             $BayMax->pwmSetOnDelay($turnBack, $string, 0);
                         }
-
                     }
                     else if ($instruction[1] > 0)
                     {
@@ -176,9 +169,7 @@ class echoServer extends WebSocketServer {
                             $string = 100; // This is a full throttle
                             $BayMax->pwmSetOnDelay( $turnForward, $string, 0 );
                         }
-
                     }
-
                 }
 
                 break;
