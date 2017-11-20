@@ -29,9 +29,9 @@ $turnRight = 12;
 const SHOW_ON_LCD = "omegaLCD -w %s %s";
 
 $BayMax = new Omega2( FALSE ); //FALSE is no logging
-$BayMax = new omegaPWM( FALSE ); //FALSE is no logging
+$BayMax = new omegaPWM(); //FALSE is no logging
 
-$availableServos = Array ( 1 => "SG90", 2 => "S3003" );
+
 $BayMax->pwmInit();
 $BayMax->pwmSetOnDelay( $throttle, 100, 0); //this should give full throttle
 
@@ -44,7 +44,7 @@ class echoServer extends WebSocketServer {
 
     protected function process ($user, $message)
     {
-        global $BayMax,$availableServos,$y,$x, $throttle, $turnForward, $turnBack, $turnLeft, $turnRight;
+        global $BayMax,$y,$x, $throttle, $turnForward, $turnBack, $turnLeft, $turnRight;
         $response = 0;
 
 
@@ -71,25 +71,21 @@ class echoServer extends WebSocketServer {
             }
             case "x":
             {
-                //$BayMax->pwmInit();
-                //$BayMax->pwmSetOnDelay( 2, 100, 0);
 
-                if ( $y !== $instruction[1] )
+                if ( $x !== $instruction[1] )
                 {
                     if ($instruction[1] == 0)
                     {
                         $BayMax->pwmInit();
                         $BayMax->pwmSetOnDelay( $throttle, 100, 0);
 
-                        //$BayMax->pwmSetOnDelay(0, 0, 0);
-                        //$BayMax->pwmSetOnDelay(1, 0, 0);
                         echo $instruction[1] . "x ";
-                        $y = $instruction[1];
+                        $x = $instruction[1];
                     }
                     else if ($instruction[1] < 0)
                     {
                         $string = str_replace('-', '', $instruction[1]);
-                        $y = $instruction[1];
+                        $x = $instruction[1];
                         echo $string . "x ";
 
                         if ($string > 0 && $string < 100)
@@ -109,7 +105,7 @@ class echoServer extends WebSocketServer {
                     {
                         $string = $instruction[1];
                         echo $string."x ";
-                        $y = $instruction[1];
+                        $x = $instruction[1];
 
                         if ($string < 100)
                         {
@@ -128,15 +124,11 @@ class echoServer extends WebSocketServer {
 
                 }
 
-                //$BayMax->pwmSleep();
                 break;
             }
 
             case "y":
             {
-                //$BayMax->pwmInit();
-                //$BayMax->pwmSetOnDelay( 2, 100, 0);
-
                 if ( $y !== $instruction[1] )
                 {
                     if ($instruction[1] == 0)
@@ -144,8 +136,6 @@ class echoServer extends WebSocketServer {
                         $BayMax->pwmInit();
                         $BayMax->pwmSetOnDelay( $throttle, 100, 0);
 
-                        //$BayMax->pwmSetOnDelay(0, 0, 0);
-                        //$BayMax->pwmSetOnDelay(1, 0, 0);
                         echo $instruction[1] . "y ";
                         $y = $instruction[1];
                     }
@@ -191,7 +181,6 @@ class echoServer extends WebSocketServer {
 
                 }
 
-                //$BayMax->pwmSleep();
                 break;
             }
 
