@@ -28,15 +28,15 @@ $BayMax = new Omega2( FALSE ); //FALSE is no logging
 $BayMax = new omegaPWM(); //FALSE is no logging
 
 
-$BayMax->pwmInit();
+$BayMax->pwmInit(); // Initialize Omega2 PWM extension board
 $BayMax->pwmSetOnDelay( $throttle, 100, 0); //this should give full throttle
 
 
 class echoServer extends WebSocketServer {
     //protected $maxBufferSize = 1048576; //1MB... overkill for an echo server, but potentially plausible for other applications.
 
-    public $y = 0;      // Store y value not to repeat same requests
-    public $x = 0;      // Store x value not to repeat same requests
+    public $y = 0;      // Store y value not to repeat same requests - Moving
+    public $x = 0;      // Store x value not to repeat same requests - Steering
 
     protected function process ($user, $message)
     {
@@ -60,6 +60,27 @@ class echoServer extends WebSocketServer {
                 {
                     echo "Turn Lights OFF\n";
                     $response = "Turn lights OFF";
+                }
+
+                break;
+            }
+
+            case "direction":
+            {
+                if ($instruction[1] == 1)
+                {
+                    echo "Turn left direction lights ON\n";
+                    $response = "Turn left direction lights ON";
+                }
+                else if ($instruction[1] == 2)
+                {
+                    echo "Turn Right direction lights ON\n";
+                    $response = "Turn Right direction lights ON";
+                }
+                else if ($instruction[1] == 0)
+                {
+                    echo "Turn Directions OFF\n";
+                    $response = "Turn Directions OFF";
                 }
 
                 break;
