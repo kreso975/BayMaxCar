@@ -151,6 +151,7 @@ class echoServer extends WebSocketServer
                 {
                     if ( $instruction[1] == 0 )
                     {
+                        $string = $instruction[1];
                         $BayMax->pwmSetOnDelay( $throttle, 100, 0);
                         $BayMax->pwmSetOnDelay( $turnBack, $string, 0);
                         $BayMax->pwmSetOnDelay( $turnForward, $string, 0 );
